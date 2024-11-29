@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  RUNNER_IMAGES_VERSION: 'main'                               # actions/runner-images version to use
+  RUNNER_IMAGES_VERSION: 'main' 
   PACKER_TEMPLATE: '/images/linux/.'
   PACKER_VERSION: '1.11.2'
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
