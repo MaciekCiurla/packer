@@ -11,11 +11,6 @@ locals {
   shared_image_version = formatdate("YYYY.MM.DD", timestamp())
 }
 
-variable "azure_tags" {
-  type    = map(string)
-  default = {}
-}
-
 variable "client_id" {
   type    = string
   default = "${env("ARM_CLIENT_ID")}"
@@ -93,34 +88,9 @@ variable "private_virtual_network_with_public_ip" {
   default = false
 }
 
-variable "replication_region1" {
-  type    = string
-  default = "${env("REPLICATION_REGION1")}"
-}
-
-variable "replication_region2" {
-  type    = string
-  default = "${env("REPLICATION_REGION2")}"
-}
-
 variable "run_validation_diskspace" {
   type    = bool
   default = false
-}
-
-variable "shared_gallery_image_version_end_of_life_date" {
-  type    = string
-  default = "${env("SHARED_IMAGE_GALLERY_END_OF_LIFE_DATE")}"
-}
-
-variable "shared_image_gallery_name" {
-  type    = string
-  default = "${env("SHARED_IMAGE_GALLERY_NAME")}"
-}
-
-variable "shared_image_name" {
-  type    = string
-  default = "${env("SHARED_IMAGE_NAME")}"
 }
 
 variable "subscription_id" {
@@ -131,21 +101,6 @@ variable "subscription_id" {
 variable "tenant_id" {
   type    = string
   default = "${env("ARM_TENANT_ID")}"
-}
-
-variable "virtual_network_name" {
-  type    = string
-  default = "${env("VIRTUAL_NETWORK_NAME")}"
-}
-
-variable "virtual_network_resource_group_name" {
-  type    = string
-  default = "${env("VIRTUAL_NETWORK_RESOURCE_GROUP_NAME")}"
-}
-
-variable "virtual_network_subnet_name" {
-  type    = string
-  default = "${env("VIRTUAL_NETWORK_SUBNET_NAME")}"
 }
 
 variable "vm_size" {
@@ -163,33 +118,12 @@ source "azure-arm" "build_image" {
   os_type                                = "Linux"
   subscription_id                        = var.subscription_id
   tenant_id                              = var.tenant_id
-  virtual_network_name                   = var.virtual_network_name
-  virtual_network_resource_group_name    = var.virtual_network_resource_group_name
-  virtual_network_subnet_name            = var.virtual_network_subnet_name
   vm_size                                = var.vm_size
-  shared_image_gallery_destination {
-      resource_group = var.managed_image_resource_group_name
-      gallery_name = var.shared_image_gallery_name
-      image_name = var.shared_image_name
-      image_version = local.shared_image_version
-      replication_regions = [
-        var.replication_region1,
-        var.replication_region2,
-      ]
-  }
-  shared_image_gallery_timeout                  = "2h"
   shared_gallery_image_version_end_of_life_date = var.shared_gallery_image_version_end_of_life_date
   managed_image_name                            = var.managed_image_name
   managed_image_storage_account_type            = "Premium_LRS"
   managed_image_resource_group_name             = var.managed_image_resource_group_name
   build_resource_group_name                     = var.managed_image_resource_group_name
-
-  dynamic "azure_tag" {
-    for_each = var.azure_tags
-    content {
-      name = azure_tag.key
-      value = azure_tag.value
-    }
   }
 }
 
