@@ -11,7 +11,7 @@ source "azure-arm" "vm" {
   os_type                           = "Linux"
   image_offer                       = "UbuntuServer"
   image_publisher                   = "Canonical"
-  image_sku                         = "22_04-lts-gen2"
+  image_sku                         = "18.04-LTS"
 
   vm_size                           = "Standard_DS2_v2"
 
