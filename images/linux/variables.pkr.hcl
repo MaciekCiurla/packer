@@ -16,11 +16,11 @@ variable "client_secret" {
 }
 variable rg {
   type = string
-  defalt = "${env("MANAGED_IMAGE_RESOURCE_GROUP_NAME")}"
+  default = "${env("MANAGED_IMAGE_RESOURCE_GROUP_NAME")}"
 }
 variable image_name {
   type = string
-  defalt = "${env("MANAGED_IMAGE_NAME")}"
+  default = "${env("MANAGED_IMAGE_NAME")}"
 }
 variable my_ip_address {
   type = string
