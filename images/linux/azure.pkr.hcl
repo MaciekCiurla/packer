@@ -3,7 +3,8 @@ source "azure-arm" "vm" {
   client_secret   = var.client_secret
   subscription_id = var.subscription_id
   tenant_id       = var.tenant_id
-
+  MANAGED_IMAGE_NAME: 'ubuntu_2204'
+  MANAGED_IMAGE_RESOURCE_GROUP_NAME: 'rg-match-ai'
   location                          = "West Europe"
   managed_image_name                = "aztf-ubuntu"
   managed_image_resource_group_name = "rg-match-ai"
