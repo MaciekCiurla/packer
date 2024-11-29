@@ -14,6 +14,14 @@ variable "client_secret" {
   type = string
   default   = "${env("ARM_CLIENT_SECRET")}"
 }
+variable rg {
+  type = string
+  defalt = "${env("MANAGED_IMAGE_RESOURCE_GROUP_NAME")}"
+}
+variable image_name {
+  type = string
+  defalt = "${env("MANAGED_IMAGE_NAME")}"
+}
 variable my_ip_address {
   type = string
   default = "193.186.4.44"
