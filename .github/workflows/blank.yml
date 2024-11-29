@@ -10,11 +10,11 @@ env:
   RUNNER_IMAGES_VERSION: 'main'                               # actions/runner-images version to use
   PACKER_TEMPLATE: './images/ubuntu-22.04.pkr.hcl'
   PACKER_VERSION: '1.8.7'
-  ARM_CLIENT_ID: 'xxx'       # PayerDevOps-BA-and-Runners-CF-SP
-  ARM_CLIENT_SECRET: 'xxx'       # PayerDevOps-BA-and-Runners-CF-SP
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_RESOURCE_LOCATION: 'west europe'
-  ARM_SUBSCRIPTION_ID: 'xxx' # Subscription: Californium
-  ARM_TENANT_ID: 'xxx'       # Veradigm.com tenant
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   MANAGED_IMAGE_NAME: 'ubuntu_2204_v2'
   MANAGED_IMAGE_RESOURCE_GROUP_NAME: 'rg-match-ai'
 
