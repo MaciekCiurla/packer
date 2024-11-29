@@ -1,0 +1,47 @@
+name: Ubuntu 22.04 VM image build
+run-name: Ubuntu 22.04 VM image build
+on:
+  workflow_dispatch:
+
+env:
+  RUNNER_IMAGES_VERSION: 'main' 
+  PACKER_TEMPLATE: '/images/linux/.'
+  PACKER_VERSION: '1.11.2'
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_RESOURCE_LOCATION: 'west europe'
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  MANAGED_IMAGE_NAME: 'ubuntu_2204'
+  MANAGED_IMAGE_RESOURCE_GROUP_NAME: 'rg-match-ai'
+
+permissions:
+  id-token: write
+  contents: read
+  repository-projects: read
+
+jobs:
+  packer:
+    runs-on: ubuntu-latest
+    name: packer
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # download desired version of Packer
+      - name: Download desired Packer version
+        uses: hashicorp/setup-packer@v3
+        with:
+          version: ${{ env.PACKER_VERSION }}
+
+      # validate template
+      - name: Validate Template
+        run: packer validate -syntax-only ${{ env.PACKER_TEMPLATE }}
+
+      # build new image if this is a manual run, scheduled, or a push to main
+      - name: Build New Image
+        id: BuildNewImage
+        run: |
+          packer init ${{ env.PACKER_TEMPLATE }}
+          packer build -color=false -force -on-error=cleanup ${{ env.PACKER_TEMPLATE }}
